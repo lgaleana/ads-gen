@@ -4,7 +4,7 @@ from .url_text_extractor import extract
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 @app.get("/")
 def read_root(request: Request):

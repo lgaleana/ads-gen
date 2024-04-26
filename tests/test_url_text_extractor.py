@@ -1,6 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
-from scripts.url_text_extractor import extract_text_from_soup, extract_images_from_soup
+from app.url_text_extractor import extract_text_from_soup, extract_images_from_soup
 from unittest.mock import patch
 
 

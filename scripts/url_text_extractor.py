@@ -1,8 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
-from flask import Flask, request, render_template
+from fastapi import FastAPI
+from pydantic import BaseModel
 
-app = Flask(__name__)
+app = FastAPI()
+
+class Url(BaseModel):
+    url: str
 
 
 def extract_text_from_soup(soup: BeautifulSoup):
@@ -18,15 +22,10 @@ def extract_images_from_soup(soup: BeautifulSoup):
     return images
 
 
-@app.route('/extract', methods=['POST'])
-def extract():
-    url = request.form['url']
-    response = requests.get(url)
+@app.post('/extract')
+def extract(url: Url):
+    response = requests.get(url.url)
     soup = BeautifulSoup(response.text, 'html.parser')
     text = extract_text_from_soup(soup)
     images = extract_images_from_soup(soup)
-    return render_template('index.html', text=text, images=images)
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return {'text': text, 'images': images}

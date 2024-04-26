@@ -1,9 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from fastapi import FastAPI
 from pydantic import BaseModel
-
-app = FastAPI()
 
 class Url(BaseModel):
     url: str
@@ -22,7 +19,6 @@ def extract_images_from_soup(soup: BeautifulSoup):
     return images
 
 
-@app.post('/extract')
 def extract(url: Url):
     response = requests.get(url.url)
     soup = BeautifulSoup(response.text, 'html.parser')

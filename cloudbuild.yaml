@@ -4,4 +4,5 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['run', 'deploy', 'no-design', '--image', 'gcr.io/gcpal-409321/ads-gen', '--region', 'us-central1', '--platform', 'managed', '--allow-unauthenticated']
 images: ['gcr.io/gcpal-409321/ads-gen']
-options:\n  logging: CLOUD_LOGGING_ONLY
+options:
+  logging: CLOUD_LOGGING_ONLY

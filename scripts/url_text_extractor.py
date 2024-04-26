@@ -2,17 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_soup_from_url(url):
+def extract_text_from_url(url):
     response = requests.get(url)
-    return BeautifulSoup(response.text, 'html.parser')
-
-
-def extract_text_from_soup(soup):
+    soup = BeautifulSoup(response.text, 'html.parser')
     text = ' '.join(t.strip() for t in soup.stripped_strings)
     print(text)
 
 
-def extract_images_from_soup(soup):
+def extract_images_from_url(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
     images = [img['src'] for img in soup.find_all('img')]
     for link in soup.find_all('link', rel='stylesheet'):
         if 'background-image' in link['href']:
@@ -21,6 +20,5 @@ def extract_images_from_soup(soup):
 
 if __name__ == '__main__':
     url = input('Enter the URL: ')
-    soup = get_soup_from_url(url)
-    extract_text_from_soup(soup)
-    extract_images_from_soup(soup)
+    extract_text_from_url(url)
+    extract_images_from_url(url)

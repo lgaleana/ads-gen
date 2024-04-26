@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from pydantic import BaseModel
+from fastapi import HTTPException
+
 
 class Url(BaseModel):
     url: str
@@ -20,6 +22,8 @@ def extract_images_from_soup(soup: BeautifulSoup):
 
 
 def extract(url: Url):
+    if not isinstance(url, Url):
+        raise HTTPException(status_code=400, detail='Invalid request body')
     response = requests.get(url.url)
     soup = BeautifulSoup(response.text, 'html.parser')
     text = extract_text_from_soup(soup)

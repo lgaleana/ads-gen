@@ -6,9 +6,9 @@ from unittest.mock import patch
 
 def test_extract_text_from_soup():
     soup = BeautifulSoup('<html><body>Example Domain</body></html>', 'html.parser')
-    extract_text_from_soup(soup)
+    assert extract_text_from_soup(soup) == 'Example Domain'
 
 
 def test_extract_images_from_soup():
     soup = BeautifulSoup('<html><body><img src="example.jpg"></body></html>', 'html.parser')
-    extract_images_from_soup(soup)
+    assert extract_images_from_soup(soup) == ['example.jpg']

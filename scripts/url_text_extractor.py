@@ -1,10 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
 
 
 def extract_text_from_soup(soup: BeautifulSoup):
     text = ' '.join(t.strip() for t in soup.stripped_strings)
-    print(text)
+    return text
 
 
 def extract_images_from_soup(soup: BeautifulSoup):
@@ -12,11 +15,18 @@ def extract_images_from_soup(soup: BeautifulSoup):
     for link in soup.find_all('link', rel='stylesheet'):
         if 'background-image' in link['href']:
             images.append(link['href'])
-    print(images)
+    return images
 
-if __name__ == '__main__':
-    url = input('Enter the URL: ')
+
+@app.route('/extract', methods=['POST'])
+def extract():
+    url = request.form['url']
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    extract_text_from_soup(soup)
-    extract_images_from_soup(soup)
+    text = extract_text_from_soup(soup)
+    images = extract_images_from_soup(soup)
+    return render_template('index.html', text=text, images=images)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

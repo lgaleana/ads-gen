@@ -2,7 +2,7 @@ FROM --platform=linux/amd64 tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
 WORKDIR /app
 
-COPY app /app
+COPY app /app/app
 
 COPY requirements.txt /app/requirements.txt
 

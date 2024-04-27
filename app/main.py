@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.templating import Jinja2Templates
-from .url_text_extractor import extract, Url
+from app.url_text_extractor import extract, Url
 
 app = FastAPI()
 

@@ -5,11 +5,9 @@ from pydantic import BaseModel
 class Url(BaseModel):
     url: str
 
-
 def extract_text_from_soup(soup: BeautifulSoup):
     text = ' '.join(t.strip() for t in soup.stripped_strings)
     return text
-
 
 def extract_images_from_soup(soup: BeautifulSoup):
     images = [img['src'] for img in soup.find_all('img')]
@@ -18,8 +16,8 @@ def extract_images_from_soup(soup: BeautifulSoup):
             images.append(link['href'])
     return images
 
-
-def extract(url: Url):
+def extract(url: dict):
+    url = Url(**url)
     response = requests.get(url.url)
     soup = BeautifulSoup(response.text, 'html.parser')
     text = extract_text_from_soup(soup)
